@@ -43,27 +43,39 @@ export default function MainContainer() {
   const context = useContext(Filters);
 
   const [filteredData, setFilteredData] = useState<DataRow[]>(context.list);
+  const [numberFilteredList, setNumberFilterList] = useState<DataRow[]>(context.list);
+
   const [mod350, setmod350] = useState<number[]>([]);
   const[number,setNumber]=useState<number[]>([]);
   const [mod8000, setmod8000] = useState<number[]>([]);
   const [mod20002, setmod20002] = useState<number[]>([]);
 
-
+  useEffect(()=>{
+    applyPrimaryFilter()
+  },[number])
   useEffect(() => {
     applyFilters();
-    // console.log(`trial ${number}` )
-  }, [mod350, mod8000, mod20002,number]);
-// useEffect(()=>{
-//   updateFilters()
+    // console.log(`trial ${number}` )x
+  }, [mod350, mod8000, mod20002]);
 
-// },[JSON.stringify(filteredData)])
+const applyPrimaryFilter = useCallback(() => {
+  let filtered = context.list;
+  if (number.length > 0) {
+    filtered = filtered.filter((product) => number.includes(product.number));
+  setFilteredData(filtered);
+setNumberFilterList(filtered)
+  const mod8000Values = [...new Set(filtered.map((obj) => obj.mod8000))];
+  const mod20002Values = [...new Set(filtered.map((obj) => obj.mod20002))];
+  const mod350Values = [...new Set(filtered.map((obj) => obj.mod350))];
+  context.setMod8000(mod8000Values);
+  context.setMod350(mod350Values);
+  context.setMod20002(mod20002Values);
+  }
 
+},[number])
 
   const applyFilters = useCallback(() => {
-    let filtered = context.list;
-    if (number.length > 0) {
-      filtered = filtered.filter((product) => number.includes(product.number));
-    }
+    let filtered=numberFilteredList
 
     if (mod350.length > 0) {
       filtered = filtered.filter((product) => mod350.includes(product.mod350));
@@ -80,7 +92,7 @@ export default function MainContainer() {
    
 
     setFilteredData(filtered);
-  }, [context.list, number, mod350, mod8000, mod20002]);
+  }, [numberFilteredList, mod350, mod8000, mod20002]);
 
   const handleNumberSelect = useCallback((selectedList: []) => {
     setNumber(selectedList.length === 0 ? [] : selectedList);
@@ -100,19 +112,27 @@ export default function MainContainer() {
 
  
 
-  useEffect(() => {
-    updateFilters();
-  }, [JSON.stringify(filteredData)]);
+  // useEffect(() => {
+  //   updateFilters();
+  // }, [JSON.stringify(filteredData)]);
 
-  const updateFilters = useCallback(() => {
-    const mod350Values = [...new Set(filteredData.map((obj) => obj.mod350))];
-    const mod8000Values = [...new Set(filteredData.map((obj) => obj.mod8000))];
-    const mod20002Values = [...new Set(filteredData.map((obj) => obj.mod20002))];
+  // useEffect(()=>{
+    
+  // },[number])
 
-    context.setMod350(mod350Values);
-    context.setMod8000(mod8000Values);
-    context.setMod20002(mod20002Values);
-  }, [filteredData, context]);
+  // useEffect(()=>{
+  //   const mod8000Values = [...new Set(filteredData.map((obj) => obj.mod8000))];
+  //   context.setMod8000(mod8000Values);
+
+  // },[mod350,number])
+  // useEffect(()=>{
+    
+    
+
+  // },[mod350,number,mod8000])
+  // const updateFilters = () => {
+   
+  // };
 
   return (
     <div style={{

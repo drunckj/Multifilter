@@ -74,7 +74,7 @@ export const Filtering = (props: { data: any[]; columns: any[] }) => {
   }, [filterText, resetPaginationToggle]);
 
   return (
-    <div style={{ maxHeight: '500px', overflow: 'auto' }}>
+    <div style={{ maxHeight: '1000px', overflow: 'auto' }}>
       <DataTable
         columns={props.columns}
         data={filteredItems}
@@ -84,7 +84,7 @@ export const Filtering = (props: { data: any[]; columns: any[] }) => {
         subHeaderComponent={subHeaderComponentMemo}
         persistTableHead
         customStyles={customStyles}
-        paginationPerPage={20} // Show 20 rows per page
+        paginationPerPage={100} // Show 20 rows per page
       />
     </div>
   );
