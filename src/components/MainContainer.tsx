@@ -56,7 +56,7 @@ export default function MainContainer() {
   useEffect(() => {
     applyFilters();
     // console.log(`trial ${number}` )x
-  }, [mod350, mod8000, mod20002]);
+  }, [mod350, mod8000, mod20002,numberFilteredList]);
 
 const applyPrimaryFilter = useCallback(() => {
   let filtered = context.list;
