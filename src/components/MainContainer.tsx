@@ -55,12 +55,13 @@ export default function MainContainer() {
   },[number])
   useEffect(() => {
     applyFilters();
-    // console.log(`trial ${number}` )x
+    console.log(`trial ${numberFilteredList}` )
   }, [mod350, mod8000, mod20002,numberFilteredList]);
 
 const applyPrimaryFilter = useCallback(() => {
   let filtered = context.list;
-  if (number.length > 0) {
+  console.log("numer length",number.length)
+  if (number.length > 0) 
     filtered = filtered.filter((product) => number.includes(product.number));
   setFilteredData(filtered);
 setNumberFilterList(filtered)
@@ -70,12 +71,15 @@ setNumberFilterList(filtered)
   context.setMod8000(mod8000Values);
   context.setMod350(mod350Values);
   context.setMod20002(mod20002Values);
-  }
 
 },[number])
 
   const applyFilters = useCallback(() => {
-    let filtered=numberFilteredList
+    let filtered
+    if(number.length===0)
+    filtered=context.list
+    else
+    filtered=numberFilteredList
 
     if (mod350.length > 0) {
       filtered = filtered.filter((product) => mod350.includes(product.mod350));

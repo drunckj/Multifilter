@@ -45,8 +45,8 @@
   
   
     }
-    const fields=fetchdefaultvalues()
-    const [number,setNumber]=useState(fields.num)
+    const fields = useMemo(() => fetchdefaultvalues(), []);
+        const [number,setNumber]=useState(fields.num)
     const [mod350,setMod350]=useState(fields.mod350)
     const [mod8000,setMod8000]=useState(fields.mod8000)
     const [mod20002,setMod20002]=useState(fields.mod20002)
